@@ -8,12 +8,6 @@
       name: freevxfs
       state: absent
 
- # - name: "NOTSCORED | 1.2.5 | PATCH | Disable the rhnsd Daemon"
- #   service:
- #     name: rhnsd
- #     state: stopped
- #     enabled: no
-
   - name: "SCORED | 5.1.1 | PATCH | Ensure cron daemon is enabled"
     service:
       name: crond
