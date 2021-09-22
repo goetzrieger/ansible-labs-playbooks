@@ -3,12 +3,18 @@
   hosts: all
 
   tasks:
-  - name: "SCORED | 1.1.1.2 | PATCH | Remove freevxfs module"
-    modprobe:
-      name: freevxfs
-      state: absent
+  - name: "RHEL-08-020330 | HIGH | PATCH | RHEL 8 must not have accounts configured with blank or null passwords. | Remove nullok"
+    replace:
+        path: "{{ item }}"
+        regexp: ' nullok'
+        replace: ''
+    with_items:
+        - /etc/pam.d/system-auth
+        - /etc/pam.d/password-auth
 
-  - name: "SCORED | 5.1.1 | PATCH | Ensure cron daemon is enabled"
-    service:
-      name: crond
-      enabled: yes
+  - name: "RHEL-08-020330 | HIGH | PATCH | RHEL 8 must not have accounts configured with blank or null passwords. | Set PermitEmptyPasswords to no"
+    lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '(?i)^#?PermitEmptyPasswords'
+        line: 'PermitEmptyPasswords no'
+    
